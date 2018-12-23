@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="hao.webapp.demo.dao.system.permission.PermissionDao">
+	
+	 
+<resultMap id="permissionMap" type="hao.webapp.demo.model.system.Permission">
+    <result column="create_time" property="createTime" />
+    <result column="create_user" property="createUser" />
+    <result column="id" property="id" />
+    <result column="permission_code" property="permissionCode" />
+    <result column="permission_name" property="permissionName" />
+</resultMap>
+
+	
+	 
+<select id="queryAccessPermission" resultMap="permissionMap" >
+select a.* from sys_permission a left  join sys_access_permission b on a.id = b.permission_id where b.access_id=#{accessId}  
+</select> 
+
+
+<select id="queryRolePermisssion" resultMap="permissionMap" >
+select a.* from sys_permission a 
+left join sys_role_permission b on a.id = b.permission_id
+where b.role_id in
+<foreach collection="roleIds" item="role" open="(" close=")" separator=",">
+	#{role.id}
+</foreach> 
+</select> 
+
+	
+	 
+
+
+	
+</mapper>

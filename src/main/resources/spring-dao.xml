@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd"
+	>
+	<description>spring dao层配置</description>
+
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dynamicDataSource" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:hao/webapp/demo/dao/**/*Mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+		<constructor-arg>
+			<ref bean="sessionFactory"></ref>
+		</constructor-arg>
+	</bean>
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="hao.webapp" />
+        <property name="sqlSessionFactoryBeanName" value="sessionFactory"></property>
+        <property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"></property>
+    </bean>
+    
+    <bean id="dao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		  <property name="mapperInterface" value="hao.framework.db.dao.mybatis.map.BaseDaoMapper" />
+		  <property name="sqlSessionFactory" ref="sessionFactory" />
+	</bean>
+    
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dynamicDataSource"/>
+	</bean>
+	
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">  
+    	<constructor-arg ref="dynamicDataSource"></constructor-arg>  
+    </bean>  
+	
+    <bean id="jdbcDao" class="hao.framework.db.dao.jdbc.JdbcDao"></bean>
+
+</beans>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录页面</title>
+<script src="common/js/jquery.min.js"></script>
+<style>
+input{
+	border:solid 1px #000000;
+	width: 100%;
+}
+</style>
+<script>
+function submitLogin(){
+	if($("#access").val()==""){
+		alert("填写账号");
+		return
+	}
+	if($("#password").val()==""){
+		alert("填写密码 ");
+		return
+	}
+	$.ajax({
+		url:"login.action",
+		type:"post",
+		data:{
+			access:$("#username").val(),
+			password:$("#password").val(),
+		},
+		dataType:"json",
+		success:function(rtn){
+			if(rtn.rtnCode=="000000"){
+				window.location.href="home.action";
+			}else{
+				alert(rtn.rtnMsg);
+			}
+		}
+	})
+}
+
+//获取回车键的触发事件
+//按键信息对象以函数参数的形式传递进来了，就是那个e
+document.onkeyup = function (e) {  
+	//取出按键信息中的按键代码(大部分浏览器通过keyCode属性获取按键代码，但少部分浏览器使用的却是charCode)
+    var code = e.charCode || e.keyCode;    
+    if (code == 13) {  
+    	submitLogin();
+     }  
+}  
+</script>
+</head>
+<body style="text-align:center;margin: 0px">
+	<table style="margin-top: 100px;margin-left:auto;margin-right:auto;width:400px" border="0">
+		<tr height="25px">
+			<td width="100px" align="right">账号:</td>
+			<td align="left">
+				<input type="text" width="100%" id="username"/>
+			</td>
+		</tr>
+		<tr>
+			<td width="100px" align="right">密码:</td>
+			<td align="left">
+				<input type="password" width="100%" id="password" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<button onclick="submitLogin()">提交</button>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<action name="hao.webapp.project.life_l_learn.openApi.UserAction" remark="用户信息处理类" >
+		<method service-id="0000001"  name="getUserInfo"  remark="获取用户信息"/>	
+	</action>
+</root>

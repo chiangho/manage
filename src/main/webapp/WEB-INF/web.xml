@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>demo</display-name>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>demo.root</param-value>
+	</context-param>
+	<context-param>
+        <param-name>log4jConfiguration</param-name>
+        <param-value>classpath:log4j2.xml</param-value>
+    </context-param>
+	<context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-context.xml</param-value>
+    </context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 字符过滤 -->
+	<filter>
+		<filter-name>SpringCharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SpringCharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<!-- haoframe 过滤器 -->
+	<filter>
+		<filter-name>haoFilter</filter-name>
+		<filter-class>hao.framework.web.filter.HaoFilter</filter-class>
+		<init-param>
+			<param-name>entity-package</param-name>
+			<param-value>hao.webapp.demo.model</param-value>
+		</init-param>
+		<init-param>
+			<param-name>app-view</param-name>
+			<param-value>classpath:app-view.xml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>haoFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>demo</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>demo</servlet-name>
+		<url-pattern>*.action</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 异常处理   -->
+	<servlet>
+		<servlet-name>errorHandler</servlet-name>
+		<servlet-class>hao.framework.web.ErrorHandler</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>errorHandler</servlet-name>
+		<url-pattern>/error_handler</url-pattern>
+	</servlet-mapping>
+	
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/error_handler?error_page=error/404.action</location>
+	</error-page>
+	<error-page>
+	    <error-code>403</error-code>
+	    <location>/error_handler?error_page=error/403.action</location>
+	</error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error_handler?error_page=error/500.action</location>
+    </error-page>
+    
+    <welcome-file-list>
+    	<welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    
+</web-app>

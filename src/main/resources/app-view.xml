@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+app 视图层配置
+@time    2018年2月8日
+@auther  chianghao
+说明 
+app 定义一个应用
+	name                 名称
+	directory            目录
+	form应用下的表单	
+		input 表单下的输入框
+			class        实体类
+			name         实体类的名称
+			type         类型
+			placeholder  提示信息
+			readonly     只读
+			required     必填
+			requiredMsg  未必填时的提示信息
+			disabled     不可用
+			options      选项
+			validates    验证信息   BETWEEN(1,5),EMAIL()
+						    IDCODE(),//身份证验证
+							EMAIL(),//邮箱
+							POSITIVE(),//正数
+							NEGATIVE(),//负数
+							INTEGER(),//整数
+							LENGTH(=,3),//长度                           参数：操作符，比对的值
+							ODD(),//奇数
+							EVEN(),//偶数
+							PRECISION(2),//精度                          参数：精度
+							DECIMAL(),//小数
+							DATE(yyyy-MM-dd),//日期                  参数：日期格式              
+							BANKCARD(),//银行卡
+							EQUALTO(name),//和某个字段一样             参数：input的name值
+							BETWEEN(1,5),//数值在什么之间       参数：下位数，上位数 
+							ONLYONE(),//数据唯一                      
+							URL(),//
+							MOBILE_PHONE()//验证手机号码
+	;
+			
+			_fileFormat  上传文件格式
+	list应用下的列表
+	    class            实体类
+		column 列表下的列
+			title        列头
+			width        宽度 （填写数字）
+			field        实体类的元素名称
+			action       动作 {title:'删除',event:'del',params:'field-id,1,0,field-name'},{title:'删除',event:'edit',params:'id'}
+-->
+<apps>
+	<app title="" name="" directory="" action="">
+		<form title="">
+			<input class="" name=""  type=""  placeholder=""  readonly=""  required=""  requiredMsg="" disabled="" options="" />
+		</form>
+		<list class="" is-page="true">
+			<column title="" field=""  />
+			<column title="" action="" />
+		</list>
+	</app>
+</apps>

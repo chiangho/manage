@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="hao.webapp.demo.dao.system.role_info.RoleInfoDao">
+	
+	 
+<resultMap id="roleInfoMap" type="hao.webapp.demo.model.system.RoleInfo">
+    <result column="create_time" property="createTime" />
+    <result column="role_code" property="roleCode" />
+    <result column="role_name" property="roleName" />
+    <result column="create_user" property="createUser" />
+    <result column="id" property="id" />
+</resultMap>
+
+	
+	 
+<select id="queryByAccessId" resultMap="roleInfoMap" >
+ select * from sys_role a
+ left join sys_access_role b on a.id = b.role_id
+ where b.access_id=#{accessId}
+</select> 
+
+
+
+	
+</mapper>
